@@ -2570,7 +2570,7 @@ class Aauth {
 		}
 	}
 
-	public function get_menu() {
+	public function get_menu1() {
 		$user_type = $this->CI->session->userdata('user_type_id');
 		$user = $this->CI->session->userdata('user_id');
 		$menu_res = '<ul class="main-menu" id="main-menu">';
@@ -2614,8 +2614,8 @@ class Aauth {
 			$this->CI->db->select('a.*');
 			$this->CI->db->from('tbl_menu a');
 			if(!in_array($user_type, array(1))){
-                $this->CI->db->join('tbl_menu_to_group b', 'a.ser_id=b.menu_id');
-                $this->CI->db->join('aauth_groups c', 'b.group_id= c.id');
+                $this->CI->db->join('tbl_menu_to_group b', 'a.ser_id=b.ser_id');
+                $this->CI->db->join('tbl_group c', 'b.group_id= c.id');
                 $this->CI->db->join('tbl_user d', 'c.id=d.group_id');
 				$this->CI->db->where('d.`user_id`', $user);
 			}
@@ -2644,7 +2644,7 @@ class Aauth {
 		return $menu_res;
 	}
 
-	public function get_menu1()
+	public function get_menu()
 	{
 		$user_type = $this->CI->session->userdata('user_type_id');
 		$user = $this->CI->session->userdata('user_id');
@@ -2675,9 +2675,9 @@ class Aauth {
 		foreach($array as $element) {
 			if($element['parent_menu']==$parent_id) {
 				$menu_html .= '<li class="';
-				/*if($element['parent_menu'] > 0) {
+				if($element['menu_url']!=NULL) {
 					$menu_html .= ' has-sub';
-				}*/
+				}
 				$menu_html .='"><a href="'.base_url().$element['menu_url'].'">';
 				if($element['menu_icon']){
 					$menu_html .= '<i class="fa fa-2x '.$element['menu_icon'].'"></i>';
